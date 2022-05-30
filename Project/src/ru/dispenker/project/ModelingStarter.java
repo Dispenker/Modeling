@@ -22,7 +22,16 @@ public class ModelingStarter {
             }
 
             if (counter % stepToScreen == 0) {
-                //screen Data
+                double pE = modelingSystem.sumPotentialEnergy / stepToScreen;
+                modelingSystem.sumPotentialEnergy = 0;
+                double pressure = modelingSystem.calculatePressure();
+                double temp = modelingSystem.calculateTemperature(pressure);
+                System.out.println(ValueConverter.getEnergy(pE));
+                System.out.println(ValueConverter.getPressure(pressure));
+                System.out.println(ValueConverter.getTemperature(temp));
+                System.out.println(modelingSystem.countSucceeded * 100 / stepToScreen + "%");
+                modelingSystem.countSucceeded = 0;
+                System.out.println();
             }
 
             if (counter++ == countSteps) {
@@ -30,19 +39,19 @@ public class ModelingStarter {
                 break;
             }
 
-            move(counter);
+            move(0.01d);
 
         }
     }
 
-    private void move(int step) {
-        modelingSystem.updatePosition(step);
+    private void move(double step) {
+        modelingSystem.updatePosition();
     }
 
     public static void main(String[] args) {
-        ModelingSystem ms = new ModelingSystem(new Argon(), 1020, new Field(30, 30));
+        ModelingSystem ms = new ModelingSystem(new Argon(), 108, 1, new Field(5, 10));
         ms.placeMolecules();
-        ModelingStarter modelingStarter = new ModelingStarter(ms, 100_000, 10_000);
+        ModelingStarter modelingStarter = new ModelingStarter(ms, 10_000_000, 1_000_000);
         modelingStarter.modeling();
     }
 }

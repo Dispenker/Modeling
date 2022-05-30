@@ -23,15 +23,11 @@ public class Vector {
         return X * X + Y * Y + Z * Z;
     }
 
-    public void add(Vector velocity, Vector acceleration, double step) {
-        X += velocity.X * step + acceleration.X * step * step / 2;
-        Y += velocity.Y * step + acceleration.Y * step * step / 2;
-        Z += velocity.Z * step + acceleration.Z * step * step / 2;
-    }
-
-    public void add(Vector acceleration, double step) {
-        X += acceleration.X * step;
-        Y += acceleration.Y * step;
-        Z += acceleration.Z * step;
+    public static Vector add(Vector position, Vector dimension) {
+        return new Vector(
+            position.X += dimension.X,
+            position.Y += dimension.Y,
+            position.Z += dimension.Z
+        );
     }
 }
