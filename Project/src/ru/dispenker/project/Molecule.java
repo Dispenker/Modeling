@@ -11,6 +11,7 @@ public class Molecule {
     public Vector position;
 
     public double potentialEnergy;
+    public double minimumRadius;
 
     public HashMap<Integer, Molecule> nearMolecules;
 
@@ -36,15 +37,16 @@ public class Molecule {
                 radius = Constants.DoubleR0;
             }
 
-            double radius3 = radius * radius * radius;
-            double radius6 = radius3 * radius3;
+            double radius6 = Math.pow(Constants.doubleGamma / radius, 3);
+            double radius12 = radius6 * radius6;
 
-            potentialEnergy += 4 * (1 / radius6 - 1 / radius3);
+            potentialEnergy += 4 * Constants.epsilon * (radius12 - radius6);
         }
     }
 
     public void calculateNearMolecules(ArrayList<Molecule> molecules) {
         nearMolecules = new HashMap<>();
+        double mR = Constants.Rc;
         for (Molecule molecule : molecules) {
             if (ID == molecule.ID) {
                 continue;
@@ -56,7 +58,13 @@ public class Molecule {
                 continue;
             }
 
+            if (radius < mR) {
+                mR = radius;
+            }
+
             nearMolecules.put(molecule.ID, molecule);
         }
+
+        minimumRadius = Math.max(Constants.DoubleR0, mR);
     }
 }

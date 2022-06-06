@@ -15,10 +15,6 @@ public class Vector {
         return new Vector(vector2.X - vector1.X, vector2.Y - vector1.Y, vector2.Z - vector1.Z);
     }
 
-    public double absoluteValue() {
-        return Math.sqrt(X * X + Y * Y + Z * Z);
-    }
-
     public double absoluteSqrValue() {
         return X * X + Y * Y + Z * Z;
     }
